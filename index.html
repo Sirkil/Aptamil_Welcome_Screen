@@ -41,20 +41,7 @@
     <footer><span>APTAMIL INNOVATION PAVILION</span><span>27 NOVEMBER 2026 · CAIRO</span></footer>
   </main>
 
-  <div id="login-overlay" class="login-overlay">
-    <form id="kiosk-login" class="login-card">
-      <img src="./aptamil-mark.png" alt="Aptamil Innovation Pavilion">
-      <span class="overline">WELCOME SCREEN SETUP</span>
-      <h2>Connect the welcome screen</h2>
-      <p>Sign in with a staff account before guests begin tapping their tags.</p>
-      <label>Registration server URL<input id="api-url" type="url" required placeholder="https://your-service.onrender.com" autocomplete="url"></label>
-      <label>Staff username<input id="username" required autocomplete="username"></label>
-      <label>Password<input id="password" type="password" required autocomplete="current-password"></label>
-      <p id="login-error" class="login-error" role="alert"></p>
-      <button type="submit">Connect reader</button>
-    </form>
-  </div>
-
+  <script src="./config.js" defer></script>
   <script src="./app.js" defer></script>
 </body>
 </html>
