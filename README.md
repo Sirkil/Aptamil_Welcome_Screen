@@ -2,6 +2,8 @@
 
 This is a separate GitHub Pages site. Its R20C USB reader types a 10-digit code into the focused browser window. The page asks the Aptamil registration API for the matching attendee name, fades out **Welcome to Aptamil Lunch Event**, fades in the saved name for 10 seconds, then fades back to idle. The Aptamil logo stays visible throughout. No sign-in or setup form appears on the screen.
 
+The display uses the white transparent `aptamil-mark.png` and bundles Poppins locally under `fonts/` with its Open Font License.
+
 ## Deployment
 
 1. Set `window.APTAMIL_API_ORIGIN` in `config.js` to the actual HTTPS origin of the Render registration service. The provided value assumes Render assigned `https://aptamil-registration-platform.onrender.com`; check the service URL in Render before publishing. This file contains a public URL, never a password or staff token.
