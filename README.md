@@ -1,6 +1,6 @@
 # Aptamil R20C welcome screen
 
-This is a separate GitHub Pages site. Its R20C USB reader types a 10-digit code into the focused browser window. The page asks the Aptamil registration API for the matching attendee name, fades in **Welcome Dr. [name]**, holds it for 10 seconds, then fades back to idle. No sign-in or setup form appears on the screen.
+This is a separate GitHub Pages site. Its R20C USB reader types a 10-digit code into the focused browser window. The page asks the Aptamil registration API for the matching attendee name, fades out **Welcome to Aptamil Lunch Event**, fades in the saved name for 10 seconds, then fades back to idle. The Aptamil logo stays visible throughout. No sign-in or setup form appears on the screen.
 
 ## Deployment
 
@@ -8,6 +8,8 @@ This is a separate GitHub Pages site. Its R20C USB reader types a 10-digit code 
 2. Publish this folder as its own GitHub Pages repository at `https://sirkil.github.io/Aptamil_Welcome_Screen/`.
 3. In Render, set `WELCOME_ORIGIN` to that GitHub Pages URL. The registration server extracts `https://sirkil.github.io` for browser access checks. Deploy the updated registration server before testing the welcome page.
 4. Open the welcome page on the computer with the R20C reader. Leave the browser window focused and tap a sticker. The reader should type its 10-digit code; the page requests the matching name.
+
+Staff can also open **Monitor** in the registration platform, choose **Assign code** beside a guest, and scan or type the exact 10 digits from the R20C. This stores the code in the database even when the NFC written status has not been marked. An existing assignment can be corrected or removed there. Each code can belong to only one guest.
 
 The welcome lookup is available to requests carrying the configured browser origin and is rate limited. A static GitHub Pages site cannot keep a staff password secret, so no staff credentials are embedded here. The registration and settings APIs still require staff sign-in.
 

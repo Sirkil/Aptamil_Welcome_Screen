@@ -43,17 +43,17 @@ async function lookup(rawCode){
  if(code===lastCode&&now-lastCodeAt<1500)return;
  lastCode=code;lastCodeAt=now;
  const sequence=++requestSequence;
- readerStatus.textContent='Finding attendee…';
+ readerStatus.textContent='';
  try{
   const result=await api(`/welcome/lookup/${code}`);
   if(sequence!==requestSequence)return;
   if(typeof result.name!=='string'||!result.name.trim())throw new Error('No name was returned.');
-  guestName.textContent=result.name.trim().replace(/^Dr\.?\s+/i,'');
-  readerStatus.textContent='Connected. Tap your NFC tag.';
+  guestName.textContent=result.name.trim();
+  readerStatus.textContent='';
   setScene('greeting');
  }catch(error){
   if(sequence!==requestSequence)return;
-  readerStatus.textContent=error.status===404?'Tag not registered.':'Cannot reach registration server.';
+  readerStatus.textContent='';
   showUnknown(error.status===404?'This NFC tag is not registered. Please see our team.':'The registration server is unavailable. Please see our team.');
  }
 }
@@ -74,7 +74,7 @@ window.addEventListener('keydown',event=>{
 });
 
 async function heartbeat(){
- try{await api('/welcome/heartbeat');readerStatus.textContent='Connected. Tap your NFC tag.';}
+ try{await api('/welcome/heartbeat');readerStatus.textContent='';}
  catch{readerStatus.textContent=apiOrigin?'Cannot reach registration server.':'Registration server URL is not configured.';}
 }
 void heartbeat();

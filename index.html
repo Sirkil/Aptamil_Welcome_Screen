@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#03277d">
+  <meta name="theme-color" content="#0344af">
   <meta name="description" content="Aptamil Innovation Pavilion welcome screen">
   <title>Welcome · Aptamil Innovation Pavilion</title>
   <link rel="icon" href="./aptamil-mark.png">
@@ -11,36 +11,31 @@
 </head>
 <body>
   <main class="screen" aria-live="polite">
-    <div class="orb orb-a" aria-hidden="true"></div>
-    <div class="orb orb-b" aria-hidden="true"></div>
-    <div class="shield shield-outer" aria-hidden="true"></div>
-    <div class="shield shield-inner" aria-hidden="true"></div>
-    <div class="particles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <header class="brand">
-      <div class="logo-frame"><img src="./aptamil-mark.png" alt="Aptamil Innovation Pavilion"></div>
-      <div class="brand-copy"><span>APTAMIL</span><strong>INNOVATION PAVILION</strong></div>
-    </header>
-    <section id="idle" class="scene idle is-visible">
-      <p class="overline">WELCOME TO THE INNOVATION PAVILION</p>
-      <h1>Every arrival<br><em>inspires what’s next.</em></h1>
-      <div class="tap-hint"><span class="tap-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><rect x="17" y="12" width="30" height="40" rx="6" stroke="currentColor" stroke-width="2"/><path d="M24 31c4-5 12-5 16 0M27 35c3-3 7-3 10 0M32 39h.01" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span><span>Tap your NFC tag<br><small>to begin your experience</small></span></div>
-      <p id="reader-status" class="reader-status" role="status">Connecting to registration…</p>
-    </section>
-    <section id="greeting" class="scene greeting" aria-atomic="true">
-      <p class="overline">WE'RE DELIGHTED YOU'RE HERE</p>
-      <h1>Welcome <span>Dr.</span></h1>
-      <strong id="guest-name" class="guest-name"></strong>
-      <p class="greeting-subtitle">Your journey through innovation starts now.</p>
-      <div class="greeting-rule"></div>
-    </section>
-    <section id="unknown" class="scene unknown" aria-atomic="true">
-      <p class="overline">WELCOME TO THE INNOVATION PAVILION</p>
-      <h1>Please see<br><em>our team</em></h1>
-      <p id="unknown-message" class="greeting-subtitle">We’ll help you with your NFC tag.</p>
-    </section>
-    <footer><span>APTAMIL INNOVATION PAVILION</span><span>27 NOVEMBER 2026 · CAIRO</span></footer>
+    <div class="light-band light-band-back" aria-hidden="true"></div>
+    <div class="light-band light-band-front" aria-hidden="true"></div>
+    <div class="display">
+      <div class="brand" aria-label="Aptamil Innovation Pavilion">
+        <img src="./aptamil-mark.png" alt="Aptamil Innovation Pavilion">
+      </div>
+      <div class="divider" aria-hidden="true"></div>
+      <div class="message">
+        <section id="idle" class="scene is-visible">
+          <p class="eyebrow">Welcome</p>
+          <h1>Welcome to<br><em>Aptamil Lunch Event</em></h1>
+        </section>
+        <section id="greeting" class="scene" aria-atomic="true">
+          <p class="eyebrow">Welcome</p>
+          <h1 id="guest-name" class="guest-name"></h1>
+        </section>
+        <section id="unknown" class="scene" aria-atomic="true">
+          <p class="eyebrow">Welcome</p>
+          <h1>Please see our team</h1>
+          <p id="unknown-message" class="unknown-message">We’ll help you with your tag.</p>
+        </section>
+      </div>
+    </div>
+    <p id="reader-status" class="reader-status" role="status"></p>
   </main>
-
   <script src="./config.js" defer></script>
   <script src="./app.js" defer></script>
 </body>
