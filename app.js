@@ -2,6 +2,10 @@ const scenes={idle:document.getElementById('idle'),greeting:document.getElementB
 const guestName=document.getElementById('guest-name');
 const unknownMessage=document.getElementById('unknown-message');
 const readerStatus=document.getElementById('reader-status');
+const welcomeScreen=document.getElementById('welcome-screen');
+const controlScreen=document.getElementById('control-screen');
+const scannerStatus=document.getElementById('scanner-status');
+const databaseStatus=document.getElementById('database-status');
 let sceneTimer=0;
 let scanTimer=0;
 let scanBuffer='';
@@ -36,12 +40,20 @@ async function api(path){
  }finally{clearTimeout(timeout);}
 }
 function showUnknown(message){unknownMessage.textContent=message;setScene('unknown');}
-async function lookup(rawCode){
- const code=rawCode.trim();
+function acceptScan(code){
  if(!/^\d{10}$/.test(code))return;
+ const time=new Date().toLocaleTimeString();
+ scannerStatus.textContent=`Scan received at ${time}`;
+ scannerStatus.dataset.state='ok';
+ if(!controlScreen.hidden)return;
  const now=Date.now();
  if(code===lastCode&&now-lastCodeAt<1500)return;
  lastCode=code;lastCodeAt=now;
+ void arduinoLights.trigger();
+ void lookup(code);
+}
+
+async function lookup(code){
  const sequence=++requestSequence;
  readerStatus.textContent='';
  try{
@@ -58,10 +70,28 @@ async function lookup(rawCode){
  }
 }
 
+function showControls(show){
+ welcomeScreen.hidden=show;
+ controlScreen.hidden=!show;
+ clearTimeout(scanTimer);
+ scanBuffer='';
+ if(show){
+  requestSequence++;
+  setScene('idle');
+  controlScreen.querySelector('h1').focus();
+  void heartbeat();
+ }
+}
+
+document.getElementById('show-welcome').addEventListener('click',()=>showControls(false));
 window.addEventListener('keydown',event=>{
- if(!apiOrigin||event.ctrlKey||event.altKey||event.metaKey||event.isComposing)return;
+ if(event.ctrlKey||event.altKey||event.metaKey||event.isComposing)return;
+ if(event.key.toLowerCase()==='q'){
+  if(!event.repeat){event.preventDefault();showControls(controlScreen.hidden);}
+  return;
+ }
  if(event.key==='Enter'){
-  if(scanBuffer){event.preventDefault();const code=scanBuffer;scanBuffer='';clearTimeout(scanTimer);void lookup(code);}
+  if(scanBuffer){event.preventDefault();const code=scanBuffer;scanBuffer='';clearTimeout(scanTimer);acceptScan(code);}
   return;
  }
  if(!/^\d$/.test(event.key))return;
@@ -70,12 +100,27 @@ window.addEventListener('keydown',event=>{
  lastKeyAt=now;scanBuffer+=event.key;
  if(scanBuffer.length>10)scanBuffer=scanBuffer.slice(-10);
  clearTimeout(scanTimer);
- scanTimer=setTimeout(()=>{if(scanBuffer.length===10)void lookup(scanBuffer);scanBuffer='';},190);
+ scanTimer=setTimeout(()=>{acceptScan(scanBuffer);scanBuffer='';},190);
 });
 
+let checkingDatabase=false;
 async function heartbeat(){
- try{await api('/welcome/heartbeat');readerStatus.textContent='';}
- catch{readerStatus.textContent=apiOrigin?'Cannot reach registration server.':'Registration server URL is not configured.';}
+ if(checkingDatabase)return;
+ checkingDatabase=true;
+ try{
+  const result=await api('/welcome/heartbeat');
+  if(result.ok!==true)throw new Error('Unexpected heartbeat response.');
+  databaseStatus.textContent='Connected';
+  databaseStatus.dataset.state='ok';
+  readerStatus.textContent='';
+ }catch{
+  const message=apiOrigin?'Cannot reach registration database.':'Registration server URL is not configured.';
+  databaseStatus.textContent=message;
+  databaseStatus.dataset.state='error';
+  readerStatus.textContent=message;
+ }finally{
+  checkingDatabase=false;
+ }
 }
 void heartbeat();
 setInterval(()=>{void heartbeat();},60000);

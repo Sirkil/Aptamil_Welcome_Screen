@@ -1,6 +1,6 @@
 # Aptamil R20C welcome screen
 
-This is a separate GitHub Pages site. Its R20C USB reader types a 10-digit code into the focused browser window. The page asks the Aptamil registration API for the matching attendee name, fades out **Welcome to Aptamil Lunch Event**, fades in the saved name for 10 seconds, then fades back to idle. The Aptamil logo stays visible throughout. No sign-in or setup form appears on the screen.
+This is a separate GitHub Pages site. Its R20C USB reader types a 10-digit code into the focused browser window. The page asks the Aptamil registration API for the matching attendee name, fades out **Welcome to Aptamil Lunch Event**, fades in the saved name for 10 seconds, then fades back to idle. The Aptamil logo stays visible throughout. The guest display opens without sign-in or visible controls.
 
 The display uses the white transparent `aptamil-mark.png` and bundles Poppins locally under `fonts/` with its Open Font License.
 
@@ -18,6 +18,13 @@ The welcome lookup is available to requests carrying the configured browser orig
 ## Hardware check
 
 The registration app derives the R20C code from the NFC tag ID. Before event use, write one final sticker with the Android phone and compare the code shown in its registration dialog or XLSX export with the digits typed by the actual R20C. The reader was not available during development, so this physical comparison remains unverified.
+
+## Kiosk controls and Arduino
+
+1. Upload `Feature01BlueLed.ino` to the Nano, close Arduino IDE Serial Monitor, and plug both the R20C reader and Nano into the kiosk computer by USB.
+2. Open the HTTPS welcome page in desktop Chrome or Edge. Press **Q** to open controls, click **Connect Arduino**, and select the Nano's COM port. The browser can reopen the selected port on a later visit if permission is retained and exactly one available port matches.
+3. Click **Test LEDs** and check the strip. The control screen confirms when the sketch acknowledges the command. Tap an NFC tag to confirm that a scan is received. The reader acts as a keyboard, so its status shows the most recent complete scan rather than reporting USB presence. **Connected** under **Registration database** means the database-backed heartbeat succeeded.
+4. Click **Show welcome screen** or press **Q** to return. Keep the browser focused. In the welcome view, each accepted 10-digit scan sends `BLUE\n` at 115200 baud immediately, including scans of unregistered tags. The sketch fills the strip with blue LEDs, holds for 10 seconds, then turns them off in reverse order. Test scans in the control view only verify scanner input.
 
 ## Free-plan availability
 

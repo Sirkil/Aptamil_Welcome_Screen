@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <main class="screen" aria-live="polite">
+  <main id="welcome-screen" class="screen" aria-live="polite">
     <div class="light-band light-band-back" aria-hidden="true"></div>
     <div class="light-band light-band-front" aria-hidden="true"></div>
     <div class="display">
@@ -36,7 +36,34 @@
     </div>
     <p id="reader-status" class="reader-status" role="status"></p>
   </main>
+  <main id="control-screen" class="control-screen" hidden>
+    <header class="control-header">
+      <h1 tabindex="-1">Welcome screen controls</h1>
+      <button id="show-welcome" type="button">Show welcome screen</button>
+    </header>
+    <div class="control-grid">
+      <section>
+        <h2>Arduino Nano</h2>
+        <p id="arduino-status" class="device-status" role="status">Disconnected</p>
+        <div class="control-actions">
+          <button id="arduino-connect" type="button">Connect Arduino</button>
+          <button id="arduino-test" type="button" disabled>Test LEDs</button>
+        </div>
+      </section>
+      <section>
+        <h2>R20C scanner</h2>
+        <p id="scanner-status" class="device-status" role="status">Waiting for a scan</p>
+        <p class="control-hint">Tap a tag on the reader to verify it.</p>
+      </section>
+      <section>
+        <h2>Registration database</h2>
+        <p id="database-status" class="device-status" role="status">Checking connection…</p>
+      </section>
+    </div>
+    <p class="control-hint">Press <kbd>Q</kbd> to switch screens.</p>
+  </main>
   <script src="./config.js" defer></script>
+  <script src="./arduino.js" defer></script>
   <script src="./app.js" defer></script>
 </body>
 </html>
