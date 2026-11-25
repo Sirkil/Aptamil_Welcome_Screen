@@ -1,8 +1,12 @@
 # Aptamil R20C welcome screen
 
-This is a separate GitHub Pages site. Its R20C USB reader types a 10-digit code into the focused browser window. The page asks the Aptamil registration API for the matching attendee name, fades out **Welcome to Aptamil Lunch Event**, fades in the name prefixed with **Dr.** for 10 seconds, then fades back to idle. An existing **Dr.** prefix is not repeated. The Aptamil logo stays visible throughout. The guest display opens without sign-in or visible controls.
+This is a separate GitHub Pages site. Its R20C USB reader types a 10-digit code into the focused browser window. The page asks the Aptamil registration API for the matching attendee name. At rest, the combined Aptamil Innovation Pavilion logo is centered over the pavilion background. A scan moves the logo upward, then shows **WELCOME** and the attendee name prefixed with **Dr.** for 10 seconds before returning to idle. An existing **Dr.** prefix is not repeated. No guest title is displayed. The guest display opens without sign-in or visible controls.
 
-The display uses the white transparent `aptamil-mark.png` and bundles Poppins locally under `fonts/` with its Open Font License.
+The welcome artwork comes from the supplied layered 3840 × 1152 PSD: `pavilion-frame.jpg`, `pavilion-grade.png`, `pavilion-light-line.png`, and `pavilion-logo.png`. The background layers and logo remain separate so the logo can animate. The page bundles Poppins locally under `fonts/` with its Open Font License.
+
+## Background GIF
+
+The provided `pavilion-background.gif` sits beside `index.html`. The page uses the PSD frame while the GIF loads, then shows the GIF underneath the PSD darkening and light-line layers. The current 1280 × 720 GIF is cropped to fill the 10:3 display without stretching. To use another filename, change `window.APTAMIL_BACKGROUND_GIF` in `config.js`; a 10:3 GIF (ideally 3840 × 1152) will align without cropping.
 
 ## Deployment
 

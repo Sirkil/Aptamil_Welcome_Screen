@@ -11,30 +11,27 @@
 </head>
 <body>
   <main id="welcome-screen" class="screen" aria-live="polite">
-    <div class="light-band light-band-back" aria-hidden="true"></div>
-    <div class="light-band light-band-front" aria-hidden="true"></div>
-    <div class="display">
+    <div id="pavilion-stage" class="pavilion-stage" data-scene="idle">
+      <div class="pavilion-background" aria-hidden="true">
+        <img class="pavilion-frame" src="./pavilion-frame.jpg" alt="">
+        <img id="pavilion-gif" class="pavilion-gif" alt="" hidden>
+        <img class="pavilion-grade" src="./pavilion-grade.png" alt="">
+        <img class="pavilion-light-line" src="./pavilion-light-line.png" alt="">
+      </div>
       <div class="brand" aria-label="Aptamil Innovation Pavilion">
-        <img src="./aptamil-mark.png" alt="Aptamil Innovation Pavilion">
+        <img src="./pavilion-logo.png" alt="Aptamil Innovation Pavilion">
       </div>
-      <div class="divider" aria-hidden="true"></div>
-      <div class="message">
-        <section id="idle" class="scene is-visible">
-          <p class="eyebrow">Welcome</p>
-          <h1><em>Aptamil Lunch Event</em></h1>
-        </section>
-        <section id="greeting" class="scene" aria-atomic="true">
-          <p class="eyebrow">Welcome</p>
-          <h1 id="guest-name" class="guest-name"></h1>
-        </section>
-        <section id="unknown" class="scene" aria-atomic="true">
-          <p class="eyebrow">Welcome</p>
-          <h1>Please see our team</h1>
-          <p id="unknown-message" class="unknown-message">We’ll help you with your tag.</p>
-        </section>
-      </div>
+      <section id="greeting" class="scene" aria-atomic="true">
+        <p class="eyebrow">Welcome</p>
+        <h1 id="guest-name" class="guest-name"></h1>
+      </section>
+      <section id="unknown" class="scene" aria-atomic="true">
+        <p class="eyebrow">Welcome</p>
+        <h1>Please see our team</h1>
+        <p id="unknown-message" class="unknown-message">We’ll help you with your tag.</p>
+      </section>
+      <p id="reader-status" class="reader-status" role="status"></p>
     </div>
-    <p id="reader-status" class="reader-status" role="status"></p>
   </main>
   <main id="control-screen" class="control-screen" hidden>
     <header class="control-header">

@@ -1,4 +1,5 @@
-const scenes={idle:document.getElementById('idle'),greeting:document.getElementById('greeting'),unknown:document.getElementById('unknown')};
+const scenes={greeting:document.getElementById('greeting'),unknown:document.getElementById('unknown')};
+const pavilionStage=document.getElementById('pavilion-stage');
 const guestName=document.getElementById('guest-name');
 const unknownMessage=document.getElementById('unknown-message');
 const readerStatus=document.getElementById('reader-status');
@@ -23,8 +24,20 @@ function configuredOrigin(){
 }
 const apiOrigin=configuredOrigin();
 
+const backgroundGif=window.APTAMIL_BACKGROUND_GIF;
+if(typeof backgroundGif==='string'&&backgroundGif.trim()){
+ const gif=new Image();
+ gif.onload=()=>{
+  const layer=document.getElementById('pavilion-gif');
+  layer.src=gif.src;
+  layer.hidden=false;
+ };
+ gif.src=backgroundGif.trim();
+}
+
 function setScene(next){
  for(const [key,node] of Object.entries(scenes))node.classList.toggle('is-visible',key===next);
+ pavilionStage.dataset.scene=next;
  clearTimeout(sceneTimer);
  if(next!=='idle')sceneTimer=setTimeout(()=>setScene('idle'),next==='greeting'?10000:4000);
 }
@@ -50,6 +63,7 @@ function acceptScan(code){
  if(code===lastCode&&now-lastCodeAt<1500)return;
  lastCode=code;lastCodeAt=now;
  void arduinoLights.trigger();
+ setScene('loading');
  void lookup(code);
 }
 
