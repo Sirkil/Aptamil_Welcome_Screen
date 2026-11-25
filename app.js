@@ -60,7 +60,8 @@ async function lookup(code){
   const result=await api(`/welcome/lookup/${code}`);
   if(sequence!==requestSequence)return;
   if(typeof result.name!=='string'||!result.name.trim())throw new Error('No name was returned.');
-  guestName.textContent=result.name.trim();
+  const name=result.name.trim();
+  guestName.textContent=/^Dr\.?\s+/i.test(name)?name:`Dr. ${name}`;
   readerStatus.textContent='';
   setScene('greeting');
  }catch(error){

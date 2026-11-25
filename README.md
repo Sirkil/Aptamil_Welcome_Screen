@@ -1,6 +1,6 @@
 # Aptamil R20C welcome screen
 
-This is a separate GitHub Pages site. Its R20C USB reader types a 10-digit code into the focused browser window. The page asks the Aptamil registration API for the matching attendee name, fades out **Welcome to Aptamil Lunch Event**, fades in the saved name for 10 seconds, then fades back to idle. The Aptamil logo stays visible throughout. The guest display opens without sign-in or visible controls.
+This is a separate GitHub Pages site. Its R20C USB reader types a 10-digit code into the focused browser window. The page asks the Aptamil registration API for the matching attendee name, fades out **Welcome to Aptamil Lunch Event**, fades in the name prefixed with **Dr.** for 10 seconds, then fades back to idle. An existing **Dr.** prefix is not repeated. The Aptamil logo stays visible throughout. The guest display opens without sign-in or visible controls.
 
 The display uses the white transparent `aptamil-mark.png` and bundles Poppins locally under `fonts/` with its Open Font License.
 
