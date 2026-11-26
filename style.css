@@ -31,14 +31,17 @@ html,body{width:100%;height:100%;margin:0}
   background:#021a54;
 }
 .pavilion-background,
-.pavilion-background img{
+.pavilion-background img,
+.pavilion-background video{
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
 }
-.pavilion-background img{object-fit:cover;object-position:center}
+.pavilion-background img,.pavilion-background video{object-fit:cover;object-position:center}
 .pavilion-background img[hidden]{display:none}
+.pavilion-video{opacity:0}
+.pavilion-video.is-playing{opacity:1}
 #pavilion-gif{object-fit:cover;object-position:center}
 .brand{
   position:absolute;
@@ -53,11 +56,11 @@ html,body{width:100%;height:100%;margin:0}
 .cta-gif{
   position:absolute;
   z-index:2;
-  left:3%;
+  left:clamp(24px,10.4167vw,400px);
   top:50%;
-  height:82%;
+  height:58%;
   width:auto;
-  max-width:21%;
+  max-width:16%;
   object-fit:contain;
   transform:translateY(-50%);
 }

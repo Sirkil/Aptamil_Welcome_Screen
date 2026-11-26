@@ -32,14 +32,21 @@ function configuredOrigin(){
 const apiOrigin=configuredOrigin();
 
 const backgroundGif=window.APTAMIL_BACKGROUND_GIF;
-if(typeof backgroundGif==='string'&&backgroundGif.trim()){
- const gif=new Image();
- gif.onload=()=>{
-  const layer=document.getElementById('pavilion-gif');
-  layer.src=gif.src;
-  layer.hidden=false;
- };
- gif.src=backgroundGif.trim();
+const backgroundVideo=window.APTAMIL_BACKGROUND_VIDEO;
+const gifLayer=document.getElementById('pavilion-gif');
+function showBackgroundGif(){
+ if(typeof backgroundGif!=='string'||!backgroundGif.trim())return;
+ gifLayer.src=backgroundGif.trim();
+ gifLayer.hidden=false;
+}
+if(typeof backgroundVideo==='string'&&backgroundVideo.trim()){
+ const video=document.getElementById('pavilion-video');
+ video.addEventListener('playing',()=>{video.classList.add('is-playing');gifLayer.hidden=true;});
+ video.addEventListener('error',showBackgroundGif,{once:true});
+ video.src=backgroundVideo.trim();
+ void video.play().catch(showBackgroundGif);
+}else{
+ showBackgroundGif();
 }
 
 function setScene(next){

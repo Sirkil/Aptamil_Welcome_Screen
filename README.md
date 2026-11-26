@@ -8,7 +8,7 @@ The welcome artwork comes from the supplied layered 3840 × 1152 PSD: `pavilion-
 
 ## Background GIF
 
-The provided `pavilion-background.gif` sits beside `index.html`. The page uses the PSD frame while the GIF loads, then shows the GIF underneath the PSD darkening and light-line layers. The GIF and artwork cover the full browser viewport without stretching; edges are cropped when the screen aspect ratio differs. To use another filename, change `window.APTAMIL_BACKGROUND_GIF` in `config.js`.
+The provided `pavilion-background.gif` sits beside `index.html`. The page plays a smaller MP4 version of the same animation so the background appears sooner, and uses the GIF if video playback fails. The PSD frame remains visible until the animation starts. The background and artwork cover the full browser viewport without stretching; edges are cropped when the screen aspect ratio differs. Change `window.APTAMIL_BACKGROUND_VIDEO` and `window.APTAMIL_BACKGROUND_GIF` in `config.js` to use different files.
 
 ## Deployment
 
