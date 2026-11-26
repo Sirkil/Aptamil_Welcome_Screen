@@ -23,8 +23,8 @@ html,body{width:100%;height:100%;margin:0}
 }
 .pavilion-stage{
   position:relative;
-  width:min(100vw,333.333svh);
-  aspect-ratio:10/3;
+  width:100vw;
+  height:100svh;
   overflow:hidden;
   isolation:isolate;
   container-type:inline-size;
@@ -37,7 +37,7 @@ html,body{width:100%;height:100%;margin:0}
   width:100%;
   height:100%;
 }
-.pavilion-background img{object-fit:fill}
+.pavilion-background img{object-fit:cover;object-position:center}
 .pavilion-background img[hidden]{display:none}
 #pavilion-gif{object-fit:cover;object-position:center}
 .brand{
@@ -50,14 +50,25 @@ html,body{width:100%;height:100%;margin:0}
   transition:top .9s cubic-bezier(.22,1,.36,1),width .9s cubic-bezier(.22,1,.36,1);
 }
 .brand img{display:block;width:100%;height:auto}
+.cta-gif{
+  position:absolute;
+  z-index:2;
+  left:3%;
+  top:50%;
+  height:82%;
+  width:auto;
+  max-width:21%;
+  object-fit:contain;
+  transform:translateY(-50%);
+}
 .pavilion-stage:not([data-scene="idle"]) .brand{top:18%;width:24%}
 .scene{
   position:absolute;
   z-index:1;
   top:34%;
-  left:0;
-  width:100%;
-  padding:0 10%;
+  left:22%;
+  width:78%;
+  padding:0 7%;
   text-align:center;
   opacity:0;
   visibility:hidden;
@@ -82,6 +93,67 @@ html,body{width:100%;height:100%;margin:0}
 .reader-status{position:absolute;z-index:2;left:50%;bottom:2.5%;transform:translateX(-50%);margin:0;max-width:90%;color:#e2f5ff;font-size:clamp(11px,.7cqw,24px);text-align:center;text-shadow:0 1px 5px #003d9c}
 .reader-status:empty{display:none}
 .screen[hidden],.control-screen[hidden]{display:none}
+.rain-screen{background:#020f34}
+.rain-stage{
+  position:relative;
+  width:100vw;
+  height:100svh;
+  overflow:hidden;
+  container-type:inline-size;
+  background:radial-gradient(ellipse at 50% 40%,#1152a1 0%,#072c6e 50%,#021338 100%);
+}
+.rain-stage::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.24;
+  background:repeating-linear-gradient(110deg,transparent 0 48px,#90d9ff45 49px,transparent 51px 108px);
+}
+.rain-names{
+  position:absolute;
+  inset:4% 3%;
+  display:grid;
+  grid-template-columns:repeat(var(--rain-columns,1),minmax(0,1fr));
+  grid-template-rows:repeat(var(--rain-rows,1),minmax(0,1fr));
+  align-items:center;
+  justify-items:center;
+  gap:.2cqw .6cqw;
+}
+.rain-name{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
+  min-width:0;
+  color:#ecfaff;
+  font-size:var(--rain-font-size,2cqw);
+  font-weight:600;
+  line-height:1.1;
+  text-align:center;
+  overflow-wrap:anywhere;
+  text-shadow:0 0 8px #66ccff,0 2px 16px #001841;
+  animation:name-rain var(--rain-duration,5s) ease-in-out infinite alternate;
+  animation-delay:var(--rain-delay,0s);
+}
+.rain-name::before{
+  content:"";
+  position:absolute;
+  top:4%;
+  left:50%;
+  width:1px;
+  height:28%;
+  background:linear-gradient(transparent,#b8eaff88);
+  transform:translateX(-50%);
+}
+.rain-message{position:absolute;inset:0;display:grid;place-items:center;margin:0;color:#e8f8ff;font-size:clamp(18px,2cqw,60px);text-align:center}
+.rain-message[hidden]{display:none}
+@keyframes name-rain{
+  from{transform:translateY(-25%);opacity:.45}
+  to{transform:translateY(25%);opacity:1}
+}
 .control-screen{min-height:100svh;padding:clamp(22px,5vw,72px);background:#072957}
 .control-header,.control-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
 .control-header{justify-content:space-between;margin-bottom:24px}
@@ -98,11 +170,11 @@ html,body{width:100%;height:100%;margin:0}
 .control-screen button{border:1px solid #a1d1ff;border-radius:6px;padding:9px 13px;background:#e8f5ff;color:#082d54;font:inherit;cursor:pointer}
 .control-screen button:disabled{opacity:.5;cursor:default}
 @media(max-width:700px){
-  .pavilion-stage{width:100vw}
-  .scene{top:32%;padding:0 7%}
+  .scene{top:32%;padding:0 5%}
   .eyebrow{margin-bottom:.7cqw}
 }
 @media(prefers-reduced-motion:reduce){
   .brand{transition:none}
   .scene,.scene.is-visible{transition:opacity .2s ease,visibility 0s;transform:none}
+  .rain-name{animation:none}
 }

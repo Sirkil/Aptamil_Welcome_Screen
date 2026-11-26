@@ -21,6 +21,7 @@
       <div class="brand" aria-label="Aptamil Innovation Pavilion">
         <img src="./pavilion-logo.png" alt="Aptamil Innovation Pavilion">
       </div>
+      <img class="cta-gif" src="./CTA.gif" alt="Tap your badge to activate">
       <section id="greeting" class="scene" aria-atomic="true">
         <p class="eyebrow">Welcome</p>
         <h1 id="guest-name" class="guest-name"></h1>
@@ -31,6 +32,12 @@
         <p id="unknown-message" class="unknown-message">We’ll help you with your tag.</p>
       </section>
       <p id="reader-status" class="reader-status" role="status"></p>
+    </div>
+  </main>
+  <main id="rain-screen" class="screen rain-screen" aria-label="Submitted attendee names" hidden>
+    <div id="rain-stage" class="rain-stage">
+      <div id="rain-names" class="rain-names"></div>
+      <p id="rain-message" class="rain-message" role="status" hidden></p>
     </div>
   </main>
   <main id="control-screen" class="control-screen" hidden>
@@ -57,7 +64,7 @@
         <p id="database-status" class="device-status" role="status">Checking connection…</p>
       </section>
     </div>
-    <p class="control-hint">Press <kbd>Q</kbd> to switch screens.</p>
+    <p class="control-hint">Press <kbd>Q</kbd> to switch between controls and welcome. Press <kbd>W</kbd> for the submitted names rain.</p>
   </main>
   <script src="./config.js" defer></script>
   <script src="./arduino.js" defer></script>

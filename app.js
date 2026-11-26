@@ -4,6 +4,10 @@ const guestName=document.getElementById('guest-name');
 const unknownMessage=document.getElementById('unknown-message');
 const readerStatus=document.getElementById('reader-status');
 const welcomeScreen=document.getElementById('welcome-screen');
+const rainScreen=document.getElementById('rain-screen');
+const rainStage=document.getElementById('rain-stage');
+const rainNamesNode=document.getElementById('rain-names');
+const rainMessage=document.getElementById('rain-message');
 const controlScreen=document.getElementById('control-screen');
 const scannerStatus=document.getElementById('scanner-status');
 const databaseStatus=document.getElementById('database-status');
@@ -14,6 +18,9 @@ let lastKeyAt=0;
 let lastCode='';
 let lastCodeAt=0;
 let requestSequence=0;
+let rainNames=[];
+let rainSignature='';
+let loadingRain=false;
 
 function configuredOrigin(){
  try{
@@ -58,7 +65,7 @@ function acceptScan(code){
  const time=new Date().toLocaleTimeString();
  scannerStatus.textContent=`Scan received at ${time}`;
  scannerStatus.dataset.state='ok';
- if(!controlScreen.hidden)return;
+ if(welcomeScreen.hidden)return;
  const now=Date.now();
  if(code===lastCode&&now-lastCodeAt<1500)return;
  lastCode=code;lastCodeAt=now;
@@ -85,26 +92,86 @@ async function lookup(code){
  }
 }
 
-function showControls(show){
- welcomeScreen.hidden=show;
- controlScreen.hidden=!show;
+function setRainMessage(message){
+ rainMessage.textContent=message;
+ rainMessage.hidden=!message;
+}
+
+function renderRain(){
+ const count=rainNames.length;
+ rainNamesNode.replaceChildren();
+ if(!count){setRainMessage('Waiting for submitted names');return;}
+ setRainMessage('');
+ const columns=Math.max(1,Math.ceil(Math.sqrt(count*1.5)));
+ const rows=Math.ceil(count/columns);
+ rainNamesNode.style.setProperty('--rain-columns',columns);
+ rainNamesNode.style.setProperty('--rain-rows',rows);
+ const cellWidth=rainStage.clientWidth*.94/columns;
+ const cellHeight=rainStage.clientHeight*.92/rows;
+ const fontSize=Math.min(46,cellWidth/10,cellHeight/2.5);
+ rainNamesNode.style.setProperty('--rain-font-size',`${Math.max(5,fontSize)}px`);
+ const fragment=document.createDocumentFragment();
+ rainNames.forEach((name,index)=>{
+  const item=document.createElement('div');
+  item.className='rain-name';
+  item.textContent=name;
+  item.style.setProperty('--rain-duration',`${4+(index%7)*.55}s`);
+  item.style.setProperty('--rain-delay',`${-(index%11)*.45}s`);
+  fragment.appendChild(item);
+ });
+ rainNamesNode.appendChild(fragment);
+}
+
+async function refreshRain(){
+ if(rainScreen.hidden||loadingRain)return;
+ loadingRain=true;
+ if(!rainSignature)setRainMessage('Loading submitted names…');
+ try{
+  const result=await api('/welcome/names');
+  if(!Array.isArray(result.names)||!result.names.every(name=>typeof name==='string'))throw new Error('Unexpected names response.');
+  const signature=JSON.stringify(result.names);
+  if(signature!==rainSignature){
+   rainNames=result.names;
+   rainSignature=signature;
+   if(!rainScreen.hidden)renderRain();
+  }
+ }catch{
+  if(!rainNames.length&&!rainScreen.hidden)setRainMessage('Could not load submitted names');
+ }finally{loadingRain=false;}
+}
+
+function showView(view){
+ welcomeScreen.hidden=view!=='welcome';
+ rainScreen.hidden=view!=='rain';
+ controlScreen.hidden=view!=='controls';
  clearTimeout(scanTimer);
  scanBuffer='';
- if(show){
+ if(view!=='welcome'){
   requestSequence++;
   setScene('idle');
+ }
+ if(view==='controls'){
   controlScreen.querySelector('h1').focus();
   void heartbeat();
  }
+ if(view==='rain'){
+  if(rainNames.length)renderRain();
+  void refreshRain();
+ }
 }
 
-document.getElementById('show-welcome').addEventListener('click',()=>showControls(false));
+document.getElementById('show-welcome').addEventListener('click',()=>showView('welcome'));
 window.addEventListener('keydown',event=>{
  if(event.ctrlKey||event.altKey||event.metaKey||event.isComposing)return;
  if(event.key.toLowerCase()==='q'){
-  if(!event.repeat){event.preventDefault();showControls(controlScreen.hidden);}
+  if(!event.repeat){event.preventDefault();showView(controlScreen.hidden?'controls':'welcome');}
   return;
  }
+ if(event.key.toLowerCase()==='w'){
+  if(!event.repeat){event.preventDefault();showView('rain');}
+  return;
+ }
+ if(welcomeScreen.hidden)return;
  if(event.key==='Enter'){
   if(scanBuffer){event.preventDefault();const code=scanBuffer;scanBuffer='';clearTimeout(scanTimer);acceptScan(code);}
   return;
@@ -117,6 +184,9 @@ window.addEventListener('keydown',event=>{
  clearTimeout(scanTimer);
  scanTimer=setTimeout(()=>{acceptScan(scanBuffer);scanBuffer='';},190);
 });
+
+window.addEventListener('resize',()=>{if(!rainScreen.hidden&&rainNames.length)renderRain();});
+setInterval(()=>{if(!rainScreen.hidden)void refreshRain();},10000);
 
 let checkingDatabase=false;
 async function heartbeat(){
