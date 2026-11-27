@@ -4,7 +4,7 @@ This is a separate GitHub Pages site. Its R20C USB reader types a 10-digit code 
 
 The welcome artwork comes from the supplied layered 3840 × 1152 PSD: `pavilion-frame.jpg`, `pavilion-grade.png`, `pavilion-light-line.png`, and `pavilion-logo.png`. The background layers and logo remain separate so the logo can animate. The page bundles Poppins locally under `fonts/` with its Open Font License.
 
-`CTA.gif` appears on the left of the welcome view. Press **W** to show every submitted attendee name in the animated rain view. That view refreshes from the registration database every 10 seconds and keeps repeated names as separate entries. Press **Q** to open the controls, then **Q** again to return to the welcome view. The rain view requires the registration server's `/api/welcome/names` endpoint, so publish the registration server update as well as this welcome page update.
+`CTA.gif` appears on the right of the welcome view. The logo and greeting scale with both the screen width and height so they keep their proportions on the 2816 × 768 kiosk display. Press **W** to show every submitted attendee name in the animated rain view. That view refreshes from the registration database every 10 seconds and keeps repeated names as separate entries. Press **Q** to open the controls, then **Q** again to return to the welcome view. The rain view requires the registration server's `/api/welcome/names` endpoint, so publish the registration server update as well as this welcome page update.
 
 ## Background GIF
 
